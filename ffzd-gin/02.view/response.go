@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func main() {
+func response() {
 	router := gin.Default()
 	// 加载模板目录下所有文件
 	router.LoadHTMLGlob("templates/*")
@@ -43,5 +43,9 @@ func main() {
 	// 响应文件
 	// router.StaticFile("/static/image", "/static/image.img")
 	router.StaticFS("/static", http.Dir("static"))
+	// 重定向
+	router.GET("/baidu", func(c *gin.Context) {
+		c.Redirect(301, "https://www.baidu.com")
+	})
 	router.Run(":8888")
 }
