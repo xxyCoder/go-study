@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func main() {
+func request() {
 	router := gin.Default()
 	// query参数
 	router.GET("/query", func(c *gin.Context) {
