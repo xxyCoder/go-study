@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func main() {
+func header() {
 	router := gin.Default()
 	router.GET("/", func(c *gin.Context) {
 		// 首字母大小写不区分
