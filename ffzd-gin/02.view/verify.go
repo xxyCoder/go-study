@@ -4,13 +4,15 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
+	"github.com/go-playground/validator/v10"
 )
 
 type SignInfo struct {
-	Name            string   `json:"name" binding:"required" msg:"用户名校验失败"`
+	Name            string   `json:"name" binding:"required"`
 	Password        string   `json:"password" binding:"min=4,max=8"`
 	ConfirmPassword string   `json:"confirmPassword" binding:"eqfield=Password"`
-	Age             int      `json:"age" binding:"lt=30,gt=18" msg:"请输入年龄"`
+	Age             int      `json:"age" binding:"lt=30,gt=18"`
 	LikeList        []string `json:"like_list" binding:"required,dive,startsWidth=like"`
 	IP              string   `json:"ip" binding:"ip"`
 	Url             string   `json:"url" binding:"url"`
@@ -32,8 +34,24 @@ excludes
 dive	后面验证针对数组每一个元素
 */
 
+func signValid(fl validator.FieldLevel) bool {
+	//...
+	var namelist []string = []string{"xxy", "xxxy", "xxx"}
+	for _, name := range namelist {
+		v := fl.Field().Interface().(string)
+		if v == name {
+			return false
+		}
+	}
+	return true
+}
+
 func verify() {
 	router := gin.Default()
+	// 自定义
+	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
+		v.RegisterValidation("sign", signValid)
+	}
 	router.POST("/", func(c *gin.Context) {
 		var user SignInfo
 		// 类型校验是自带的
