@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func main() {
+func single() {
 	router := gin.Default()
 	router.GET("/", func(c *gin.Context) {
 		fmt.Println(0)
