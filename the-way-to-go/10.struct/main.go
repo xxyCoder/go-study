@@ -27,13 +27,16 @@ type TagType struct {
 type innerS struct {
 	int1 int
 	int2 int
+	b    int
 }
 
-// 匿名字段
+// 匿名字段，此时类型就是字段名称，故每一种类型只能有一个匿名字段
 type outterS struct {
 	b int
 	c int
 	int
+	// 内嵌结构体，可以模拟继承行为
+	// 内嵌即将内层结构体简单插入外层结构体
 	innerS
 }
 
@@ -76,6 +79,8 @@ func main() {
 	ms := new(struct1)
 	ms.str = "xxyCoder learn go"
 	ms = &struct1{10, 3.14, "xxy"}
+	ms2 := struct1{17, 7.1, "17gaming"}
+	fmt.Println(ms2)
 	// 初始化方式
 	intr1 := Interval{0, 3}
 	intr2 := Interval{end: 5, start: 1}
@@ -92,8 +97,9 @@ func main() {
 	outer := new(outterS)
 	outer.b = 123
 	outer.int = 666
-	outer.innerS = innerS{1, 2}
-	fmt.Println(outer)
+	outer.innerS = innerS{1, 2, 3}
+	// 命名冲突，外层覆盖内层，如果在同一个级别出现，则报错
+	fmt.Println(outer, outer.b)
 	// 调用方法
 	fmt.Println(outer.addThem(), outer.innerS.addToParam(123))
 	// 多重继承
