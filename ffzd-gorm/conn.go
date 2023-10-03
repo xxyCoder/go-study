@@ -27,7 +27,7 @@ var DB *gorm.DB
 func init() {
 	fmt.Println("init")
 	username := "root"
-	password := "自己的密码"
+	password := "?"
 	host := "127.0.0.1"
 	port := 3306
 	dbName := "gorm"
