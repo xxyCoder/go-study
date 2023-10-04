@@ -15,6 +15,47 @@ type Student struct {
 	Age  int    `gorm:"size:3:column:age"`
 }
 
+type Author struct {
+	Id       uint `gorm:"primaryKey"`
+	Name     string
+	Articles []Article `gorm:"foreignKey:AId"` // 2.也可以在此处重写
+}
+
+// 外键命名：表名+ID，类型需要一致
+type Article struct {
+	Id    uint `gorm:"primaryKey"`
+	Title string
+	// AuthorID uint
+	AId    uint
+	Author Author `gorm:"foreignKey:AId"` // 1.重写外键关联
+}
+
+// 一对一表
+type User struct {
+	Id       uint
+	Name     string
+	UserInfo *UserInfo
+}
+type UserInfo struct {
+	Id     uint
+	UserId uint
+	User   User
+	Like   string
+	Age    int
+}
+
+// 多对多表
+type Tag struct {
+	Id     uint
+	Name   string
+	Videos []Video `gorm:"many2many;video_tags;"`
+}
+type Video struct {
+	Id    uint
+	Title string
+	Tags  []Tag `gorm:"many2many;video_tags"`
+}
+
 // Hook
 func (user *Student) BeforeCreate(tx *gorm.DB) (err error) {
 	user.Name = "xxx"
@@ -25,7 +66,6 @@ func (user *Student) BeforeCreate(tx *gorm.DB) (err error) {
 var DB *gorm.DB
 
 func init() {
-	fmt.Println("init")
 	username := "root"
 	password := "?"
 	host := "127.0.0.1"
@@ -39,7 +79,7 @@ func init() {
 		NamingStrategy: schema.NamingStrategy{
 			TablePrefix:   "",    // 表名前缀
 			SingularTable: true,  // 表名单数
-			NoLowerCase:   false, //关闭小写转换
+			NoLowerCase:   false, // 关闭小写转换
 		},
 	})
 	if err != nil {
@@ -51,5 +91,6 @@ func init() {
 
 func Conn() {
 	// 创建数据表
-	DB.AutoMigrate(&Student{})
+	// DB.AutoMigrate(&Student{})
+	DB.AutoMigrate(&Author{}, &Article{})
 }

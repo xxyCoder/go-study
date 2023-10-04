@@ -10,7 +10,7 @@ func AgeGt23(db *gorm.DB) *gorm.DB {
 	return db.Where("age > 23")
 }
 
-func main() {
+func sto() {
 	// s1 := Student{Name: "xxyCoder", Age: 21}
 	// create接收指针
 	// err := DB.Create(&s1).Error
