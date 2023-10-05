@@ -11,7 +11,7 @@ func AgeGt23(db *gorm.DB) *gorm.DB {
 }
 
 func sto() {
-	// s1 := Student{Name: "xxyCoder", Age: 21}
+	s1 := Student{Name: "xxyCoder", Age: 21}
 	// create接收指针
 	// err := DB.Create(&s1).Error
 	// if err != nil {
@@ -19,16 +19,19 @@ func sto() {
 	// }
 	// 批量插入
 	var studentList []Student
-	for i := 0; i < 10; i++ {
-		studentList = append(studentList, Student{Name: fmt.Sprintf("xxy%d", i+1), Age: 22 + i})
-	}
+	// for i := 0; i < 10; i++ {
+	// 	studentList = append(studentList, Student{Name: fmt.Sprintf("xxy%d", i+1), Age: 22 + i})
+	// }
 	// err = DB.Create(&studentList).Error
 	// if err != nil {
 	// 	fmt.Println("批量插入失败", err)
 	// }
+
+	// 用指定字段创建记录
+	// DB.Select("Name", "Age").Create(&s1)
+
 	// 查询单条记录
-	var s2 Student
-	s2 = Student{}
+	var s2 Student = Student{}
 
 	// DB.Take(&s2)
 	// DB.First(&s2)
@@ -47,6 +50,7 @@ func sto() {
 	// 查询多条记录、获取查询记录数
 	// count := DB.Find(&studentList).RowsAffected
 	// fmt.Println(count)
+
 	// 根据多个主键查
 	studentList = []Student{}
 	// DB.Find(&studentList, []int{2, 4, 6, 8, 10})
@@ -93,6 +97,14 @@ func sto() {
 
 	// select查询
 	// DB.Select("name", "age").Find(&studentList)
+	// type APIStudent struct {
+	// 	Name string
+	// }
+	// select name from students
+	// DB.Model(&Student{}).Find(&APIStudent{})
+
+	// Between
+	// DB.Where("age between ? AND ?", 10, 20).Find(&studentList)
 
 	// 排序
 	// DB.Order("age desc").Find(&studentList)
@@ -121,6 +133,7 @@ func sto() {
 
 	DB.Model(Student{}).Scopes(AgeGt23).Find(&res)
 
+	fmt.Println(s1)
 	fmt.Println(res)
 	fmt.Println(s2)
 	fmt.Println(countList)

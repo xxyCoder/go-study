@@ -89,8 +89,8 @@ func init() {
 	DB = db
 }
 
-func Conn() {
+func CreateTable() {
 	// 创建数据表
 	// DB.AutoMigrate(&Student{})
-	DB.AutoMigrate(&Author{}, &Article{})
+	// DB.AutoMigrate(&Author{}, &Article{})
 }
