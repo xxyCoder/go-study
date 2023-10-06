@@ -9,9 +9,11 @@ import (
 func request() {
 	router := gin.Default()
 	// query参数
+	// query?user=xxyCoder&page=1
 	router.GET("/query", func(c *gin.Context) {
 		user := c.Query("user")
-		fmt.Println(user)
+		page := c.DefaultQuery("page", "0")
+		fmt.Println(user, page)
 		fmt.Println(c.GetQuery("id"))
 		fmt.Println(c.QueryArray("user")) // 拿到多个相同查询参数
 	})
@@ -24,6 +26,7 @@ func request() {
 		fmt.Println(c.Params)
 	})
 	// 表单参数
+	// body:name=menu&addr=China
 	router.POST("/form", func(c *gin.Context) {
 		fmt.Println(c.PostForm("name"))
 		fmt.Println(c.PostFormArray("name"))            // 接受多个同名字段

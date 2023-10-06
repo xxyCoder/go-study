@@ -8,12 +8,6 @@ import (
 
 func response() {
 	router := gin.Default()
-	// 加载模板目录下所有文件
-	router.LoadHTMLGlob("templates/*")
-	router.GET("/index", func(context *gin.Context) {
-		// 第一个参数是状态码
-		context.String(http.StatusOK, "hello world")
-	})
 	// 结构体转换JSON格式
 	router.GET("/jsonStruct", func(context *gin.Context) {
 		type Stu struct {
